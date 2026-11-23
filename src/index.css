@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Noto Sans Devanagari", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Noto Sans Devanagari", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    background-color: #F4F6F9;
+    color: #111827;
+  }
+
+  button,
+  input,
+  select {
+    font-family: inherit;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    outline: 3px solid #2563EB;
+    outline-offset: 2px;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 80mm Thermal Receipt Print Styles */
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 2mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Hide everything except the active receipt modal so no trailing blank pages print */
+  #root > div > *:not(.print-modal-root) {
+    display: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-modal-root,
+  .print-modal-shell,
+  .print-receipt-wrap {
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  #thermal-receipt-print-area {
+    position: static !important;
+    width: 76mm !important;
+    max-width: 76mm !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 auto !important;
+    padding: 3mm 2mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}

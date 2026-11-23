@@ -1,0 +1,6 @@
+{
+  "name": "Janshanti Kirana POS",
+  "description": "Ultra-simple bilingual Marathi & English Kirana Shop POS, Fast Billing, Udhaar Khata, Stock Management, and Daily Hisab app.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
