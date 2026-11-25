@@ -90,6 +90,17 @@ export interface TranslationStrings {
   receiptTotal: string;
   receiptThankYou: string;
   printReceiptBtn: string;
+  sendBillWhatsAppBtn: string;
+  saveBillImageBtn: string;
+  openWhatsAppChatBtn: string;
+  whatsappShortBtn: string;
+  whatsappPhoneLabel: string;
+  whatsappPhonePlaceholder: string;
+  preparingPaperBillLabel: string;
+  paperBillSharedToast: string;
+  paperBillSavedToast: string;
+  paperBillReadyHintCopied: string;
+  paperBillReadyHintDownloaded: string;
   newBillAfterPrintBtn: string;
   modeCash: string;
   modeUpi: string;
@@ -300,6 +311,17 @@ export const translations: Record<Language, TranslationStrings> = {
     receiptTotal: 'एकूण रक्कम',
     receiptThankYou: 'धन्यवाद! पुन्हा भेट द्या!',
     printReceiptBtn: 'पावती प्रिंट करा',
+    sendBillWhatsAppBtn: 'WhatsApp वर पावती फोटो पाठवा',
+    saveBillImageBtn: 'पावती फोटो सेव्ह करा',
+    openWhatsAppChatBtn: 'WhatsApp चॅट उघडा (फोटो पेस्ट / जोडा)',
+    whatsappShortBtn: 'WhatsApp',
+    whatsappPhoneLabel: 'WhatsApp मोबाईल नंबर (ऐच्छिक)',
+    whatsappPhonePlaceholder: '10 अंकी नंबर (रिकामे = संपर्क निवडा)',
+    preparingPaperBillLabel: 'पावती फोटो तयार होत आहे...',
+    paperBillSharedToast: 'पावती फोटो WhatsApp वर शेअर झाला!',
+    paperBillSavedToast: 'पावती फोटो सेव्ह झाला!',
+    paperBillReadyHintCopied: 'पावती फोटो कॉपी व डाउनलोड झाला! खाली क्लिक करून WhatsApp मध्ये Ctrl+V पेस्ट करा किंवा फोटो पाठवा.',
+    paperBillReadyHintDownloaded: 'पावती फोटो डाउनलोड झाला! खाली क्लिक करून WhatsApp चॅट उघडा आणि डाउनलोड केलेला पावती फोटो पाठवा.',
     newBillAfterPrintBtn: 'नवीन बिल सुरू करा',
     modeCash: 'रोख',
     modeUpi: 'फोनपे / UPI',
@@ -505,6 +527,17 @@ export const translations: Record<Language, TranslationStrings> = {
     receiptTotal: 'Grand Total',
     receiptThankYou: 'Thank you! Please visit again!',
     printReceiptBtn: 'Print Receipt',
+    sendBillWhatsAppBtn: 'Send Paper Bill on WhatsApp',
+    saveBillImageBtn: 'Save Paper Photo',
+    openWhatsAppChatBtn: 'Open WhatsApp Chat (Paste / Attach Photo)',
+    whatsappShortBtn: 'WhatsApp',
+    whatsappPhoneLabel: 'WhatsApp Mobile Number (Optional)',
+    whatsappPhonePlaceholder: '10-digit mobile (blank = pick contact)',
+    preparingPaperBillLabel: 'Preparing paper bill photo...',
+    paperBillSharedToast: 'Paper bill photo shared!',
+    paperBillSavedToast: 'Paper bill photo saved!',
+    paperBillReadyHintCopied: 'Paper bill photo copied & downloaded! Tap below to open WhatsApp and press Ctrl+V (or attach the photo).',
+    paperBillReadyHintDownloaded: 'Paper bill photo downloaded! Tap below to open WhatsApp and attach the saved receipt image.',
     newBillAfterPrintBtn: 'Start New Bill',
     modeCash: 'Cash',
     modeUpi: 'UPI',

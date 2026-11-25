@@ -5,6 +5,7 @@ import {
   Calendar,
   Download,
   IndianRupee,
+  MessageCircle,
   Printer,
   ShieldCheck,
   Smartphone,
@@ -27,6 +28,7 @@ interface HisabScreenProps {
   customers: Customer[];
   lastBackupAt: string | null;
   onViewReceipt: (bill: Bill) => void;
+  onSendBillWhatsApp: (bill: Bill) => void;
   onDownloadBackup: () => void;
   onRestoreBackup: (data: StoreData) => void;
   onNotify: (msg: string, tone?: 'success' | 'error') => void;
@@ -40,6 +42,7 @@ export function HisabScreen({
   customers,
   lastBackupAt,
   onViewReceipt,
+  onSendBillWhatsApp,
   onDownloadBackup,
   onRestoreBackup,
   onNotify,
@@ -374,10 +377,22 @@ export function HisabScreen({
                       </span>
                     </td>
                     <td className="py-4 px-5 text-right whitespace-nowrap">
-                      <div className="inline-flex items-center gap-3">
-                        <span className="font-extrabold text-slate-900 tabular-nums text-[21px]">
+                      <div className="inline-flex items-center gap-2.5">
+                        <span className="font-extrabold text-slate-900 tabular-nums text-[21px] mr-1">
                           {formatRupees(bill.total)}
                         </span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSendBillWhatsApp(bill);
+                          }}
+                          aria-label={t.sendBillWhatsAppBtn}
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[42px] rounded-xl bg-[#16A34A] hover:bg-[#15803D] text-white text-[18px] font-bold transition whitespace-nowrap cursor-pointer"
+                        >
+                          <MessageCircle className="w-4 h-4 shrink-0" />
+                          <span>{t.whatsappShortBtn}</span>
+                        </button>
                         <button
                           type="button"
                           onClick={(e) => {
@@ -385,7 +400,7 @@ export function HisabScreen({
                             onViewReceipt(bill);
                           }}
                           aria-label={t.viewReceiptBtn}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[42px] rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 text-slate-900 text-[18px] font-bold transition cursor-pointer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[42px] rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white border border-slate-300 text-slate-900 text-[18px] font-bold transition cursor-pointer"
                         >
                           <Printer className="w-4 h-4" />
                           <span>{t.viewReceiptBtn}</span>

@@ -31,6 +31,7 @@ import {
   StoreData,
 } from './types/pos';
 import { toMarathiReceiptName } from './utils/transliterate';
+import { PaperShareResult, sharePaperReceipt } from './utils/receiptImage';
 
 interface ToastState {
   message: string;
@@ -61,6 +62,7 @@ export default function App() {
   const [receiptState, setReceiptState] = useState<{
     bill: Bill;
     isFromNewBill: boolean;
+    initialShareResult?: PaperShareResult | null;
   } | null>(null);
   const [toast, setToast] = useState<ToastState | null>(null);
 
@@ -250,6 +252,51 @@ export default function App() {
       );
     },
     [commitStoreUpdate, showToast]
+  );
+
+  const handleUpdateCustomerMobile = useCallback(
+    (customerId: string, mobile: string) => {
+      const cleaned = mobile.trim();
+      if (!customerId || customerId === 'cust-cash' || !cleaned) return;
+      commitStoreUpdate((prev) => ({
+        ...prev,
+        customers: prev.customers.map((c) =>
+          c.id === customerId ? { ...c, mobile: cleaned } : c
+        ),
+      }));
+    },
+    [commitStoreUpdate]
+  );
+
+  // Send 80mm Paper Bill PNG Photo via WhatsApp from Khata / Hisab rows
+  const handleSendBillPaperWhatsApp = useCallback(
+    async (bill: Bill) => {
+      const currStore = storeRef.current;
+      const currLang = currStore.language;
+      const currT = translations[currLang];
+      const cust = bill.customerId
+        ? currStore.customers.find((c) => c.id === bill.customerId)
+        : undefined;
+
+      const result = await sharePaperReceipt({
+        bill,
+        mobile: cust?.mobile,
+        pendingBalance: cust?.balance,
+        lang: currLang,
+      });
+
+      if (result.status === 'shared') {
+        showToast(currT.paperBillSharedToast, 'success');
+      } else if (result.status === 'ready_for_whatsapp') {
+        setReceiptState({
+          bill,
+          isFromNewBill: false,
+          initialShareResult: result,
+        });
+        showToast(currT.paperBillSavedToast, 'success');
+      }
+    },
+    [showToast]
   );
 
   // Complete Bill atomically for CASH, UPI, and UDHAAR (never uses stale state!)
@@ -556,6 +603,7 @@ export default function App() {
           onViewReceipt={(bill) =>
             setReceiptState({ bill, isFromNewBill: false })
           }
+          onSendBillWhatsApp={handleSendBillPaperWhatsApp}
         />
       )}
 
@@ -577,6 +625,7 @@ export default function App() {
           onViewReceipt={(bill) =>
             setReceiptState({ bill, isFromNewBill: false })
           }
+          onSendBillWhatsApp={handleSendBillPaperWhatsApp}
           onDownloadBackup={handleDownloadBackup}
           onRestoreBackup={handleRestoreBackup}
           onNotify={showToast}
@@ -584,14 +633,24 @@ export default function App() {
       )}
 
       {/* 80mm Marathi Thermal Receipt Modal */}
-      {receiptState && (
-        <ReceiptModal
-          bill={receiptState.bill}
-          lang={lang}
-          isFromNewBill={receiptState.isFromNewBill}
-          onClose={() => setReceiptState(null)}
-        />
-      )}
+      {receiptState && (() => {
+        const receiptCustomer = receiptState.bill.customerId
+          ? store.customers.find((c) => c.id === receiptState.bill.customerId)
+          : undefined;
+        return (
+          <ReceiptModal
+            bill={receiptState.bill}
+            lang={lang}
+            isFromNewBill={receiptState.isFromNewBill}
+            customerMobile={receiptCustomer?.mobile || ''}
+            customerBalance={receiptCustomer?.balance}
+            initialShareResult={receiptState.initialShareResult || null}
+            onUpdateCustomerMobile={handleUpdateCustomerMobile}
+            onNotify={showToast}
+            onClose={() => setReceiptState(null)}
+          />
+        );
+      })()}
 
       {/* Non-blocking High-Contrast Toast */}
       {toast && (
